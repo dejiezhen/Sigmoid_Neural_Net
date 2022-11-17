@@ -20,7 +20,7 @@ def init_synapses(X, hidden_neurons, classes):
     return synapse_0, synapse_1
 
 def sigmoid(z):
-    return 1 / (1 + np.exp(-1 * z))    # do we return the value or the formula??
+    return 1 / (1 + np.exp(-1 * z))  
 
 
 def sigmoid_output_to_derivative(output):
@@ -30,6 +30,10 @@ def sigmoid_output_to_derivative(output):
 def feedforward(X, synapse_0, synapse_1):
     """Feed forward through layers 0, 1, and 2."""
     layer_0 = X
+    print('syn 0')
+    print(len(synapse_0))
+    print('syn 1')
+    print(len(synapse_1))
     layer_1 = sigmoid(np.dot(layer_0, synapse_0))
     layer_2 = sigmoid(np.dot(layer_1, synapse_1))
     return layer_0, layer_1, layer_2

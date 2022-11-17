@@ -22,12 +22,13 @@ def get_raw_training_data(csv_name):
             # print(row)
 
             dict = {}
-            dict['person'] = row[0]
-            dict['sentence'] = row[1]
+            sentence_raw = row[1]
+            sentence = sentence_raw.replace('...', ' ')
+            dict['person'] = row[0].replace('"', '')
+            dict['sentence'] = sentence
             training_data.append(dict)
-            print('\n')
             # print('-----')
-    # print(training_data)
+    print(training_data)
     return training_data
 
     
@@ -40,7 +41,7 @@ def preprocess_words(words, stemmer):
     return list(token_set)
 
 def organize_raw_training_data(raw_training_data, stemmer):
-    words = []
+    words = set()
     documents = []
     classes = []
     
@@ -52,19 +53,20 @@ def organize_raw_training_data(raw_training_data, stemmer):
         # print("tokens given to preproccess")
         # print(tokenize)
         # print('--------')
-        sent_words = list(preprocess_words(tokenize, stemmer))
-        words.append(sent_words)
+        sent_words = list(preprocess_words(tokenize, stemmer))            
+        for word in sent_words:
+            words.add(word)
         documents.append((sent_words, person))
         if person not in classes: 
             classes.append(person)
 
-    return words, classes, documents
+    # print(list(words))
+    return list(words), classes, documents
        
 def create_training_data(words, classes, documents, stemmer): 
     english_vocab = set(w.lower() for w in nltk.corpus.words.words())
     training_data = []
     output = []
-
     for tuple in documents:
         curr_data = []
         for word in tuple[0]:
@@ -80,9 +82,6 @@ def create_training_data(words, classes, documents, stemmer):
         output_data[speaker_index] = 1
         output.append(output_data)
 
-
-    # training_data = [word for word in word_list if word in english_vocab]
-
     return training_data, output
 
 
@@ -92,9 +91,16 @@ def main():
     raw_training_data = get_raw_training_data('dialogue_data.csv')
     words, classes, documents = organize_raw_training_data(raw_training_data, stemmer)
     training_data, output = create_training_data(words, classes, documents, stemmer)
-    # print(documents)
-    
+
+    print('words')
+    print(words)
+    print('classes')
+    print(classes)
+    print('documents')
+    print(documents)
+    print('training_data')
     print(training_data)
+    print('output')
     print(output)
 if __name__ == "__main__":
     main()
