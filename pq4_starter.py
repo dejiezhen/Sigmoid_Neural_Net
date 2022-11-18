@@ -11,7 +11,6 @@ in this file.
 Dependencies: nltk, dialogue_classifier, time, numpy, json, datetime
 """
 
-
 from nltk.stem.lancaster import LancasterStemmer
 import nltk
 import dialogue_classifier

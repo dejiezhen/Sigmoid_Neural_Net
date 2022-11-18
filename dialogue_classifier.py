@@ -11,7 +11,6 @@ output data for the classes to train the classifying network.
 Dependencies: nltk, csv, re
 """
 
-
 import nltk
 nltk.download('punkt')
 nltk.download('words')
