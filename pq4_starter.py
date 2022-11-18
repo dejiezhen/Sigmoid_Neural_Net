@@ -1,4 +1,17 @@
-"""TODO: add more here..."""
+"""
+Bjorn Ludwig, and Dejie Zhen
+CSCI 3725
+PQ4: Social Networks?
+11/17/22
+The pq4_starter.py file takes in the processed data from dialogue_classifier.py
+so that we can train the neural network on that processed data. All of the 
+functions associated to building, training, and testing the neural network are 
+in this file. 
+
+Dependencies: nltk, dialogue_classifier, time, numpy, json, datetime
+"""
+
+
 from nltk.stem.lancaster import LancasterStemmer
 import nltk
 import dialogue_classifier
@@ -20,8 +33,8 @@ def init_synapses(X, hidden_neurons, classes):
     return synapse_0, synapse_1
 
 def sigmoid(z):
+    """Calculates the value of the sigmoid function for a given input."""
     return 1 / (1 + np.exp(-1 * z))  
-
 
 def sigmoid_output_to_derivative(output):
     """Convert the sigmoid function's output to its derivative."""
@@ -110,7 +123,7 @@ def save_synapses(filename, words, classes, synapse_0, synapse_1):
     print("Saved synapses to:", synapse_file)
 
 
-def train(X, y, words, classes, hidden_neurons=10, alpha=1, epochs=50000):
+def train(X, y, words, classes, hidden_neurons=10, alpha=1, epochs=5000):
     """Train using specified parameters."""
     print("Training with {0} neurons and alpha = {1}".format(hidden_neurons, alpha))
 
@@ -187,18 +200,16 @@ def classify(words, classes, sentence):
 
 
 def main():
-    """TODO: more instructions here..."""
-
+    # Process the input using the dialogue_classifier
     stemmer = LancasterStemmer()
     raw_training_data = dialogue_classifier.get_raw_training_data('dialogue_data.csv')
     words, classes, documents = dialogue_classifier.organize_raw_training_data(raw_training_data, stemmer)
     training_data, output = dialogue_classifier.create_training_data(words, classes, documents, stemmer)
 
-    print(words, classes, training_data, output)
     # Comment this out if you have already trained once and don't want to re-train.
-    start_training(words, classes, training_data, output)
+    # start_training(words, classes, training_data, output)
 
-    # # Classify new sentences.
+    # Classify new sentences.
     classify(words, classes, "will you look into the mirror?")
     classify(words, classes, "mithril, as light as a feather, and as hard as dragon scales.")
     classify(words, classes, "the thieves!")
